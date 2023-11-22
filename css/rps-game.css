@@ -1,10 +1,14 @@
-
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,700,800,400italic,700italic");
-@import url("https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,700,800,900"); /* Font used for (most) headings */
-@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700&display=swap"); /* Font used for hero main heading */
+@import url("https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,700,800,900");
+@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700&display=swap"); 
 
 * {
     box-sizing: border-box;
+}
+
+/* Backdrop-färg för dialogruta */
+::backdrop {
+    background-color: rgba(0, 0, 0, 0.75);
 }
 
 body {
@@ -22,10 +26,6 @@ main {
     width: 800px;
     background-color: white;
     box-shadow: 0px 0px 15px rgba(0,0,0, 0.35);
-}
-
-::backdrop {
-    background-color: rgba(0, 0, 0, 0.75);
 }
 
 #gameheader {
@@ -49,6 +49,8 @@ main {
 #gameheader h1 img.hide-element {
     display: none;
 }
+
+/****************** Scoreboard-rutan ******************/
 
 #gamescore {
     display: flex;
@@ -96,12 +98,26 @@ main {
     text-shadow: 0px 0px 25px rgb(255,64,64);
 }
 
-
-#gamebox {
-    padding: 0;
-    text-align: center;
-    display: grid;
+#points-template {
+    display: none;
 }
+
+#gamescore .points {
+    width: 32px;
+    height: 32px;
+    opacity: 0.2;
+}
+
+#gamescore .points.point-earned {
+    opacity: 1;
+}
+
+#gamescore .points.point-earned.leader {
+    fill: yellow;
+}
+
+
+/****************** Statusraden nederst ******************/
 
 #gamestatus {
     background-color: lightblue;
@@ -114,6 +130,20 @@ main {
 #gamestatus > div {
     margin-bottom: 0.6rem;
 }
+
+.roundinfo-win {
+    color: green;
+}
+
+.roundinfo-loss {
+    color: red;
+}
+
+.roundinfo-tie {
+    color: blue;
+}
+
+/****************** Knappar för att starta och starta om spelet ******************/
 
 #button-start, #button-restart {
     padding: 1rem 1.2rem 1rem 1.2rem;
@@ -138,6 +168,8 @@ main {
     color: white;   
 }
 
+/****************** Dialogruta för att fråga efter spelarens namn ******************/
+
 #namedialog {
     padding: 2rem;
 }
@@ -152,6 +184,14 @@ main {
 
 #namedialog input:focus {
     outline: 0;
+}
+
+/****************** Spelkontroller och datorns motsv. kort ******************/
+
+#gamebox {
+    padding: 0;
+    text-align: center;
+    display: grid;
 }
 
 #game {
@@ -236,100 +276,6 @@ padding: 2rem;
     transition:opacity 0.25s ease-in, transform 0.25s ease-in;
 }
 
-#gameover {
-    grid-row-start: 1;
-    grid-column-start: -1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap: 1.2rem;
-    visibility: hidden;
-    background-image: url("../images/defeat.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    font-family: "Roboto Condensed", Arial, sans-serif;
-}
-
-#gameover.victory {
-    background-image: url("../images/victory.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-
-#gameover h2 {
-    margin: 0px;
-    font-size: 6rem;
-    text-shadow: 0px 0px 15px white;
-}
-
-#gameover > div {
-    font-family: "Open Sans", Arial, sans-serif;
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: yellow;
-    text-shadow: 0px 0px 10px black;
-}
-
-#gamerules {
-    grid-row-start: 1;
-    grid-column-start: -1;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: nowrap;
-    padding: 2.5rem;
-    font-family: "Open Sans", Arial, sans-serif;
-    text-align: justify;
-    visibility: hidden;
-}
-
-#gamerules h2 {
-    font-family: "Barlow Condensed", Arial, sans-serif;
-    font-size: 5rem;
-    margin: 0.6rem 0.3rem 0.3rem 0.3rem;
-}
-
-#gamerules p:first-of-type {
-    font-weight: 700;
-}
-
-#gamerules img {
-    max-width: 250px;
-}
-
-#gamerules.showbox, 
-#game.showbox, 
-#gamescore.showbox, 
-#gameover.showbox {
-    visibility: visible;
-}
-
-.leader {
-    color: yellow;
-}
-
-.hide-element {
-    display: none;
-}
-
-.small-icon {
-    display: inline;
-    max-height: 1rem;
-}
-
-.roundinfo-win {
-    color: green;
-}
-
-.roundinfo-loss {
-    color: red;
-}
-
-.roundinfo-tie {
-    color: blue;
-}
-
 #move-comp figure {
     position: relative;
     width: fit-content;
@@ -398,4 +344,86 @@ padding: 2rem;
     background-size: 90px 90px;
     background-position: bottom right;
     z-index: 1;
+}
+
+/****************** Game Over-skärmen ******************/
+
+#gameover {
+    grid-row-start: 1;
+    grid-column-start: -1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 1.2rem;
+    visibility: hidden;
+    background-image: url("../images/defeat.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: "Roboto Condensed", Arial, sans-serif;
+}
+
+#gameover.victory {
+    background-image: url("../images/victory.jpg");
+}
+
+#gameover h2 {
+    margin: 0px;
+    font-size: 6rem;
+    text-shadow: 0px 0px 15px white;
+}
+
+#gameover > div {
+    font-family: "Open Sans", Arial, sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: yellow;
+    text-shadow: 0px 0px 10px black;
+}
+
+/****************** Spelregler-skärmen ******************/
+
+#gamerules {
+    grid-row-start: 1;
+    grid-column-start: -1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+    padding: 2.5rem;
+    font-family: "Open Sans", Arial, sans-serif;
+    text-align: justify;
+    visibility: hidden;
+}
+
+#gamerules h2 {
+    font-family: "Barlow Condensed", Arial, sans-serif;
+    font-size: 5rem;
+    margin: 0.6rem 0.3rem 0.3rem 0.3rem;
+}
+
+#gamerules p:first-of-type {
+    font-weight: 700;
+}
+
+#gamerules img {
+    max-width: 250px;
+}
+
+.small-icon {
+    display: inline;
+    max-height: 1rem;
+}
+
+/****************** Klasser för att gömma och visa diverse boxar ******************/
+
+#gamerules.showbox, 
+#game.showbox, 
+#gamescore.showbox, 
+#gameover.showbox {
+    visibility: visible;
+}
+
+.hide-element {
+    display: none;
 }

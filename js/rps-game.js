@@ -176,14 +176,44 @@ function doGameRound(playerMove, compMove) {
 ////////////////////////////////////////////////////////////////////////
 // Uppdatera poängställnings-rutan
 function updateScoreboard(doReset = false) {
-    const playerScoreBox = document.querySelector("#score-player > div");
-    const compScoreBox = document.querySelector("#score-comp > div");
     const victoryBox = document.querySelector("#score-victory");
 
-    playerScoreBox.innerText = scorePlayer;
-    compScoreBox.innerText = scoreComp;
+    // Uppdatera poäng-stjärnorna spelare och dator
+    for (let i = 1; i <= victoryPoints; i++) {
+        const playerScore = document.querySelector(`#player-points-${i}`);
+        const compScore = document.querySelector(`#comp-points-${i}`);
 
-    // Har någon vunnit spelet?
+        // Spelarens poäng
+        if (i <= scorePlayer) {
+            playerScore.classList.add("point-earned");
+        }
+        else {
+            playerScore.classList.remove("point-earned");
+        }
+
+        if (i <= scoreComp) {
+            compScore.classList.add("point-earned");
+        }
+        else {
+            compScore.classList.remove("point-earned");
+        }
+
+        // Datorns poäng
+        if (scorePlayer > scoreComp) {
+            playerScore.classList.add("leader");
+            compScore.classList.remove("leader");
+        }
+        else if (scoreComp > scorePlayer) {
+            playerScore.classList.remove("leader");
+            compScore.classList.add("leader");
+        }
+        else {
+            playerScore.classList.remove("leader");
+            compScore.classList.remove("leader");
+        }
+    }
+
+    // Ska det nollställas, eller har någon vunnit spelet? 
     if (doReset) {
         victoryBox.innerText = "";
         victoryBox.classList.remove("victory-player", "victory-comp");
@@ -195,20 +225,6 @@ function updateScoreboard(doReset = false) {
     else if (scoreComp >= victoryPoints) {
         victoryBox.innerText = "YOU LOSE!";
         victoryBox.classList.add("victory-comp");
-    }
-
-    // Markera poängen gul för den som leder
-    if (scorePlayer > scoreComp) {
-        playerScoreBox.classList.add("leader");
-        compScoreBox.classList.remove("leader");
-    }
-    else if (scoreComp > scorePlayer) {
-        playerScoreBox.classList.remove("leader");
-        compScoreBox.classList.add("leader");
-    }
-    else {
-        playerScoreBox.classList.remove("leader");
-        compScoreBox.classList.remove("leader");
     }
 }
 
@@ -331,7 +347,7 @@ function showMove(playerMove, compMove, moveWinner = WINNER_NEITHER) {
         movePaper.classList.remove("selected-move");
         moveScissors.classList.remove("selected-move");
 
-        resetVictoryLossTags([moveRock, movePaper, moveScissors]);
+        resetVictoryLossTags(moveRock, movePaper, moveScissors);
     }
 
     // Visa spelarens drag
@@ -367,7 +383,7 @@ function showMove(playerMove, compMove, moveWinner = WINNER_NEITHER) {
         buttonPaper.classList.remove("dimmed");
         buttonScissors.classList.remove("dimmed");
 
-        resetVictoryLossTags([buttonRock, buttonPaper, buttonScissors]);
+        resetVictoryLossTags(buttonRock, buttonPaper, buttonScissors);
         setMoveButtonsDisabled(false);
     }
 }
@@ -384,42 +400,29 @@ function resetMoveButtons() {
 ////////////////////////////////////////////////////////////////////////
 // Aktivera eller deaktivera knapparna för att välja ett drag
 function setMoveButtonsDisabled(disabledState) {
-    const buttonRock = document.querySelector("#button-rock");
-    const buttonPaper = document.querySelector("#button-paper");
-    const buttonScissors = document.querySelector("#button-scissors");
-
-    buttonRock.disabled = disabledState;
-    buttonPaper.disabled = disabledState;
-    buttonScissors.disabled = disabledState;
+    const buttons = document.querySelectorAll("#move-player button");
+    for (const button of buttons) {
+        button.disabled = disabledState;
+    }
 }
 
 
 ////////////////////////////////////////////////////////////////////////
-// Visa markering på knapp/drag-ikon för att indikera vinst/förlust
+// Visa markering på knapp/drag-kort för att indikera vinst/förlust
 function setVictoryLossTag(element, winner, isPlayer = true) {
-    if (isPlayer) {
-        if (winner == WINNER_PLAYER) {
-            element.classList.add("win");
-        }
-        else if (winner == WINNER_COMP) {
-            element.classList.add("loss");
-        }
+    if ((isPlayer && (winner == WINNER_PLAYER)) || (!isPlayer && (winner == WINNER_COMP))) {
+        element.classList.add("win");
     }
-    else {
-        if (winner == WINNER_COMP) {
-            element.classList.add("win");
-        }
-        else if (winner == WINNER_PLAYER) {
-            element.classList.add("loss");
-        }
+    else if ((isPlayer && (winner == WINNER_COMP)) || (!isPlayer && (winner == WINNER_PLAYER))) {
+        element.classList.add("loss");
     }
 }
 
 
 ////////////////////////////////////////////////////////////////////////
-// Ta bort vinst/förlust-markeringar från alla knappar/ikoner
-function resetVictoryLossTags(elementList) {
-    for (let i = 0; i < elementList.length; i++) {
-        elementList[i].classList.remove("win", "loss");
+// Ta bort vinst/förlust-markeringar från alla angivna knappar/kort
+function resetVictoryLossTags() {
+    for (let i = 0; i < arguments.length; i++) {
+        arguments[i].classList.remove("win", "loss");
     }
 }
