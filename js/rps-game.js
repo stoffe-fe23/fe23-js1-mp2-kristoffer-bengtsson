@@ -12,7 +12,7 @@ let scoreComp = 0;
 const victoryPoints = 3;
 
 // Antal millisekunder innan drag-knapparna återställs efter en omgång
-const buttonResetTime = 4000;
+const buttonResetTime = 3000;
 let buttonResetTimer;
 
 // Antal millisekunder innan Game Over skärmen visas när någon vunnit
@@ -38,12 +38,13 @@ const WINNER_COMP = 2;
 const startButton = document.querySelector("#button-start");
 const restartButton = document.querySelector("#button-restart");
 const nameForm = document.querySelector("#form-playername");
-const gameControls = document.querySelector("#game");
 
-// Rock Paper Scissors knapparna
+const gameControls = document.querySelector("#game");
 const rockButton = gameControls.querySelector("#button-rock");
 const paperButton = gameControls.querySelector("#button-paper");
 const scissorsButton = gameControls.querySelector("#button-scissors");
+
+// Rock Paper Scissors knapparna
 rockButton.addEventListener("click", moveButtonHandler);
 paperButton.addEventListener("click", moveButtonHandler);
 scissorsButton.addEventListener("click", moveButtonHandler);
@@ -83,7 +84,7 @@ nameForm.addEventListener("submit", (event) => {
 function moveButtonHandler(event) {
     let playerMove;
 
-    // Hitta vilken av knapparna spelaren tryckte på
+    // Spelarens drag: Hitta vilken av knapparna spelaren tryckte på
     switch (event.currentTarget.id) {
         case "button-rock": playerMove = MOVE_ROCK; break;
         case "button-paper": playerMove = MOVE_PAPER; break;
@@ -142,6 +143,7 @@ function startGame() {
 function doGameRound(playerMove, compMove) {
     const playerMoveText = getMoveText(playerMove);
     const compMoveText = getMoveText(compMove);
+
     let winner = getRoundResult(playerMove, compMove);
 
     currentRound++;
@@ -163,15 +165,10 @@ function doGameRound(playerMove, compMove) {
     showMove(playerMove, compMove, winner);
 
     // Någon har vunnit spelet - visa game over skärm efter kort fördröjning
-    if (scorePlayer >= victoryPoints) {
+    if ((scorePlayer >= victoryPoints) || (scoreComp >= victoryPoints)) {
         clearTimeout(buttonResetTimer);
         setMoveButtonsDisabled(true);
-        gameOverTimer = setTimeout(gameOver, gameOverTime, true);
-    }
-    else if (scoreComp >= victoryPoints) {
-        clearTimeout(buttonResetTimer);
-        setMoveButtonsDisabled(true);
-        gameOverTimer = setTimeout(gameOver, gameOverTime, false);
+        gameOverTimer = setTimeout(gameOver, gameOverTime, scorePlayer > scoreComp);
     }
 }
 
@@ -187,18 +184,17 @@ function updateScoreboard(doReset = false) {
     compScoreBox.innerText = scoreComp;
 
     // Har någon vunnit spelet?
-    if (scorePlayer >= victoryPoints) {
+    if (doReset) {
+        victoryBox.innerText = "";
+        victoryBox.classList.remove("victory-player", "victory-comp");
+    }
+    else if (scorePlayer >= victoryPoints) {
         victoryBox.innerText = "VICTORY!";
         victoryBox.classList.add("victory-player");
     }
     else if (scoreComp >= victoryPoints) {
         victoryBox.innerText = "YOU LOSE!";
         victoryBox.classList.add("victory-comp");
-    }
-    else if (doReset) {
-        victoryBox.innerText = "";
-        victoryBox.classList.remove("victory-player");
-        victoryBox.classList.remove("victory-comp");
     }
 
     // Markera poängen gul för den som leder
@@ -424,7 +420,6 @@ function setVictoryLossTag(element, winner, isPlayer = true) {
 // Ta bort vinst/förlust-markeringar från alla knappar/ikoner
 function resetVictoryLossTags(elementList) {
     for (let i = 0; i < elementList.length; i++) {
-        elementList[i].classList.remove("win");
-        elementList[i].classList.remove("loss");
+        elementList[i].classList.remove("win", "loss");
     }
 }
