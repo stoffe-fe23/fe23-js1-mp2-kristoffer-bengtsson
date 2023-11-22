@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!--
+    Miniprojekt 2 (Rock Paper Scissors) - FE23 Javascript 1
+    Kristoffer Bengtsson
+    -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Miniprojekt 2 - Rock Paper Scissors</title>
+    <link rel="stylesheet" href="css/rps-game.css" />
+    <script src="js/rps-game.js" defer></script>
+  </head>
+  <body>
+    <main>
+      <div id="gameheader">
+        <h1><img src="images/rps.png" id="gamelogo" alt="Rock Paper Scissors" />Rock Paper Scissors</h1>
+        <!-- POÄNGSTÄLLNING-RUTA -->
+        <div id="gamescore">
+          <div id="score-player">
+            <h2>Player</h2>
+            <div>0</div>
+          </div>
+          <div id="score-victory"></div>
+          <div id="score-comp">
+            <h2>Opponent</h2>
+            <div>0</div>
+          </div>
+        </div>
+      </div>
+      <div id="gamebox">
+        <!-- SPELREGLER-BOX -->
+        <div id="gamerules" class="showbox">
+          <div>
+            <h2>Game rules</h2>
+            <p>To win the game you need to predict which move the opponent will make and counter it.</p>
+            <p>
+              <ul>
+              <li><img src="images/rock.png" alt="Rock" class="small-icon" />Rock beats <img src="images/scissors.png" alt="Scissors" class="small-icon" />scissors</li>
+              <li><img src="images/scissors.png" alt="Scissors" class="small-icon" />Scissors beats <img src="images/paper.png" alt="Paper" class="small-icon" />paper</li>
+              <li><img src="images/paper.png" alt="Paper" class="small-icon" />Paper beats <img src="images/rock.png" alt="Rock" class="small-icon" />rock</li>
+            </ul>
+            </p>
+            <p>The first player to win three rounds wins the game.</p>
+          </div>
+          <figure><img src="images/rules.png" alt="Game rules: Rock beats scissors, which beats paper, which beats rock." /></figure>
+        </div>
+        <div id="gameover">
+          <h2>Game over!</h2>
+          <div></div>
+          <button id="button-restart">Play again</button>
+        </div>
+        <!-- HUVUDBOXEN FÖR SPELET -->
+        <div id="game">
+          <div id="move-player">
+            <button id="button-rock"><img src="images/rock.png" alt="Player Rock" /></button>
+            <button id="button-paper"><img src="images/paper.png" alt="Player Paper" /></button>
+            <button id="button-scissors"><img src="images/scissors.png" alt="Player Scissors" /></button>
+          </div>
+          <div id="move-comp">
+            <h2>Opponent move</h2>
+            <div>
+              <figure id="comp-rock"><img src="images/rock.png" alt="Opponent Rock" /></figure>
+            </div>
+            <div>
+              <figure id="comp-paper"><img src="images/paper.png" alt="Opponent Paper" /></figure>
+            </div>
+            <div>
+              <figure id="comp-scissors"><img src="images/scissors.png" alt="Opponent Scissors" /></figure>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- STATUSRADEN NEDERST -->
+      <div id="gamestatus">
+        <div></div>
+        <button id="button-start">Start the game!</button>
+      </div>
+      <!-- DIALOGRUTA FÖR ATT FÅ SPELARENS NAMN -->
+      <dialog id="namedialog">
+        <form id="form-playername" method="dialog">
+          <label for="playername">Your name:</label>
+          <input type="text" name="playername" id="playername" minlength="2" maxlength="20" required />
+          <button id="submit-playername">Play!</button>
+        </form>
+      </dialog>
+    </main>
+  </body>
+</html>
