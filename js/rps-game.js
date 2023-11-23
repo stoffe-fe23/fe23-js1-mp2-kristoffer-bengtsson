@@ -11,7 +11,7 @@ let scoreComp = 0;
 // Antal poäng som behövs för att vinna spelet
 const victoryPoints = 3;
 
-// Antal millisekunder innan drag-knapparna återställs efter en omgång
+// Antal millisekunder resultatet av en omgång visas innan spelet fortsätter
 const buttonResetTime = 3000;
 let buttonResetTimer;
 
@@ -19,19 +19,19 @@ let buttonResetTimer;
 const gameOverTime = 2000;
 let gameOverTimer;
 
-// Konstanter för hantering av speldrag-värden
+// Konstant-värden för hantering av speldrag
 const MOVE_NONE = -1;
 const MOVE_ROCK = 0;
 const MOVE_PAPER = 1;
 const MOVE_SCISSORS = 2;
 
-// Konstanter för hantering av vinst/förlust-värden
+// Konstant-värden för hantering av vinst/förlust
 const WINNER_NEITHER = 0;
 const WINNER_PLAYER = 1;
 const WINNER_COMP = 2;
 
 
-// Generera poäng-stjärnor i scoreboard
+// Generera poäng-stjärnor i Scoreboard
 createScorePoints();
 
 
@@ -39,22 +39,18 @@ createScorePoints();
 // EVENT HANDLERS
 //////////////////////////////////////////////////////////////////////////////////////////
 
-const startButton = document.querySelector("#button-start");
-const restartButton = document.querySelector("#button-restart");
-const nameForm = document.querySelector("#form-playername");
-
+// Rock Paper Scissors knapparna
 const gameControls = document.querySelector("#game");
 const rockButton = gameControls.querySelector("#button-rock");
 const paperButton = gameControls.querySelector("#button-paper");
 const scissorsButton = gameControls.querySelector("#button-scissors");
-
-// Rock Paper Scissors knapparna
 rockButton.addEventListener("click", moveButtonHandler);
 paperButton.addEventListener("click", moveButtonHandler);
 scissorsButton.addEventListener("click", moveButtonHandler);
 
 
 // Event handler för knappen som startar spelet och frågar efter spelarnamn
+const startButton = document.querySelector("#button-start");
 startButton.addEventListener("click", (event) => {
     const nameDialog = document.querySelector("#namedialog");
     const playerNameInput = document.querySelector("#playername");
@@ -67,17 +63,19 @@ startButton.addEventListener("click", (event) => {
 
 // Event handler för Play Again knappen på Game Over skärmen,
 // startar om spelet utan att fråga efter namn igen.
+const restartButton = document.querySelector("#button-restart");
 restartButton.addEventListener("click", (event) => {
     startGame();
 });
 
 
 // Event handler för formuläret där spelaren anger sitt namn.
+const nameForm = document.querySelector("#form-playername");
 nameForm.addEventListener("submit", (event) => {
     const playerNameInput = document.querySelector("#playername");
     const playerNamePlate = document.querySelector("#score-player > h2");
 
-    playerName = playerNameInput.value;
+    playerName = (playerNameInput.value.length > 1) && (playerNameInput.value.length < 21) ? playerNameInput.value : "Player";
     playerNamePlate.innerText = playerName;
 
     startGame();
@@ -109,12 +107,6 @@ function moveButtonHandler(event) {
 ////////////////////////////////////////////////////////////////////////
 // Starta en ny spelomgång, nollställ poäng och gränssnitt
 function startGame() {
-    const rulesBox = document.querySelector("#gamerules");
-    const gameBox = document.querySelector("#game");
-    const scoreBox = document.querySelector("#gamescore");
-    const gameOverBox = document.querySelector("#gameover");
-    const gameLogo = document.querySelector("#gamelogo");
-
     currentRound = 0;
     scorePlayer = 0;
     scoreComp = 0;
@@ -126,15 +118,15 @@ function startGame() {
     clearTimeout(buttonResetTimer);
     clearTimeout(gameOverTimer);
 
-    scoreBox.classList.add("showbox");
-    gameBox.classList.add("showbox");
-    rulesBox.classList.remove("showbox");
-    gameOverBox.classList.remove("showbox");
     startButton.classList.add("hide-element");
+    gameControls.classList.add("showbox");
+    document.querySelector("#gamescore").classList.add("showbox");
+    document.querySelector("#gamerules").classList.remove("showbox");
+    document.querySelector("#gameover").classList.remove("showbox");
 
-    // Göm topp-bilden på mindre höga skärmar
+    // Göm topp-bilden på mindre viewports
     if (window.innerHeight < 800) {
-        gameLogo.classList.add("hide-element");
+        document.querySelector("#gamelogo").classList.add("hide-element");
     }
 
     setStatusMessage("Round 1: Choose your move...");
@@ -144,30 +136,26 @@ function startGame() {
 ////////////////////////////////////////////////////////////////////////
 // Hantera en spelomgång - kolla ev. vinnare
 function doGameRound(playerMove, compMove) {
-    const playerMoveText = getMoveText(playerMove);
-    const compMoveText = getMoveText(compMove);
-
     let winner = getRoundResult(playerMove, compMove);
-
     currentRound++;
 
-    // Ge poäng och visa vem som vunnit denna omgången i statusraden
+    // Ge poäng och beskriv vem som vunnit denna omgången
     if (winner == WINNER_PLAYER) {
         scorePlayer++;
-        setStatusMessage(`<span class="roundinfo-win">Round ${currentRound} - <strong>${playerName.toUpperCase()} WINS:</strong></span> ${playerMoveText} defeats ${compMoveText}.`);
+        setStatusMessage(`<span class="roundinfo-win">Round ${currentRound} - <strong>${playerName.toUpperCase()} WINS:</strong></span> ${getMoveText(playerMove)} defeats ${getMoveText(compMove)}.`);
     }
     else if (winner == WINNER_COMP) {
         scoreComp++;
-        setStatusMessage(`<span class="roundinfo-loss">Round ${currentRound} - <strong>OPPONENT WINS:</strong></span> ${compMoveText} defeats ${playerMoveText}.`);
+        setStatusMessage(`<span class="roundinfo-loss">Round ${currentRound} - <strong>OPPONENT WINS:</strong></span> ${getMoveText(compMove)} defeats ${getMoveText(playerMove)}.`);
     }
     else {
-        setStatusMessage(`<span class="roundinfo-tie">Round ${currentRound} - <strong>Tie:</strong></span> ${playerMoveText} is unaffected by ${compMoveText}.`);
+        setStatusMessage(`<span class="roundinfo-tie">Round ${currentRound} - <strong>Tie:</strong></span> ${getMoveText(playerMove)} matches ${getMoveText(compMove)}.`);
     }
 
-    updateScoreboard();
     showMoves(playerMove, compMove, winner);
+    updateScoreboard();
 
-    // Någon har vunnit spelet - visa game over skärm efter kort fördröjning
+    // Någon har vunnit spelet - visa Game Over-skärm efter kort fördröjning
     if ((scorePlayer >= victoryPoints) || (scoreComp >= victoryPoints)) {
         clearTimeout(buttonResetTimer);
         setMoveButtonsDisabled(true);
@@ -181,42 +169,43 @@ function doGameRound(playerMove, compMove) {
 function updateScoreboard(doReset = false) {
     const victoryBox = document.querySelector("#score-victory");
 
-    // Uppdatera poäng-stjärnorna spelare och dator
+    // Uppdatera ställning ned spelarens och datorns poäng
     for (let i = 1; i <= victoryPoints; i++) {
-        const playerScore = document.querySelector(`#player-points-${i}`);
-        const compScore = document.querySelector(`#comp-points-${i}`);
+        const playerScoreDot = document.querySelector(`#player-points-${i}`);
+        const compScoreDot = document.querySelector(`#comp-points-${i}`);
 
         // Spelarens poäng
         if (i <= scorePlayer) {
-            playerScore.classList.add("point-earned");
+            playerScoreDot.classList.add("point-earned");
         }
         else {
-            playerScore.classList.remove("point-earned");
-        }
-
-        if (i <= scoreComp) {
-            compScore.classList.add("point-earned");
-        }
-        else {
-            compScore.classList.remove("point-earned");
+            playerScoreDot.classList.remove("point-earned");
         }
 
         // Datorns poäng
-        if (scorePlayer > scoreComp) {
-            playerScore.classList.add("leader");
-            compScore.classList.remove("leader");
-        }
-        else if (scoreComp > scorePlayer) {
-            playerScore.classList.remove("leader");
-            compScore.classList.add("leader");
+        if (i <= scoreComp) {
+            compScoreDot.classList.add("point-earned");
         }
         else {
-            playerScore.classList.remove("leader");
-            compScore.classList.remove("leader");
+            compScoreDot.classList.remove("point-earned");
+        }
+
+        // Markera ledarens poäng i gul färg
+        if (scorePlayer > scoreComp) {
+            playerScoreDot.classList.add("leader");
+            compScoreDot.classList.remove("leader");
+        }
+        else if (scoreComp > scorePlayer) {
+            playerScoreDot.classList.remove("leader");
+            compScoreDot.classList.add("leader");
+        }
+        else {
+            playerScoreDot.classList.remove("leader");
+            compScoreDot.classList.remove("leader");
         }
     }
 
-    // Ska det nollställas, eller har någon vunnit spelet? 
+    // Visa indikator om någon vunnit spelet
     if (doReset) {
         victoryBox.innerText = "";
         victoryBox.classList.remove("victory-player", "victory-comp");
@@ -274,9 +263,7 @@ function getRoundResult(playerMove, compMove) {
 ////////////////////////////////////////////////////////////////////////
 // Spelet är över, dölj spelrutan och visa Game Over-rutan
 function gameOver(victory = false) {
-    const gameBox = document.querySelector("#game");
     const gameOverBox = document.querySelector("#gameover");
-    const gameOverText = document.querySelector("#gameover > div");
 
     if (victory) {
         gameOverBox.classList.add("victory");
@@ -285,14 +272,11 @@ function gameOver(victory = false) {
         gameOverBox.classList.remove("victory");
     }
 
-    gameBox.classList.remove("showbox");
+    gameControls.classList.remove("showbox");
     gameOverBox.classList.add("showbox");
     startButton.classList.remove("hide-element");
-
-    startButton.innerText = "Start new game";
-    gameOverText.innerText = victory ? "You have won!" : "You lost the game.";
-
-    clearTimeout(gameOverTimer);
+    startButton.innerText = "New player";
+    document.querySelector("#gameover > div").innerText = victory ? "You have won!" : "You lost the game...";
 }
 
 
@@ -319,66 +303,48 @@ function showMoves(playerMove, compMove, moveWinner = WINNER_NEITHER) {
     const movePaper = document.querySelector("#comp-paper");
     const moveScissors = document.querySelector("#comp-scissors");
 
-    const buttonRock = document.querySelector("#button-rock");
-    const buttonPaper = document.querySelector("#button-paper");
-    const buttonScissors = document.querySelector("#button-scissors");
+    // Nollställ knapparna och datorns kort
+    moveRock.classList.remove("selected-move");
+    movePaper.classList.remove("selected-move");
+    moveScissors.classList.remove("selected-move");
+    rockButton.classList.remove("dimmed");
+    paperButton.classList.remove("dimmed");
+    scissorsButton.classList.remove("dimmed");
 
     // Visa datorns drag
     if (compMove == MOVE_ROCK) {
         moveRock.classList.add("selected-move");
-        movePaper.classList.remove("selected-move");
-        moveScissors.classList.remove("selected-move");
-
         setVictoryLossOverlay(moveRock, moveWinner, false);
     }
     else if (compMove == MOVE_PAPER) {
-        moveRock.classList.remove("selected-move");
         movePaper.classList.add("selected-move");
-        moveScissors.classList.remove("selected-move");
-
         setVictoryLossOverlay(movePaper, moveWinner, false);
     }
     else if (compMove == MOVE_SCISSORS) {
-        moveRock.classList.remove("selected-move");
-        movePaper.classList.remove("selected-move");
         moveScissors.classList.add("selected-move");
-
         setVictoryLossOverlay(moveScissors, moveWinner, false);
     }
 
     // Visa spelarens drag
     if (playerMove == MOVE_ROCK) {
-        buttonRock.classList.remove("dimmed");
-        buttonPaper.classList.add("dimmed");
-        buttonScissors.classList.add("dimmed");
-
-        setVictoryLossOverlay(buttonRock, moveWinner);
+        paperButton.classList.add("dimmed");
+        scissorsButton.classList.add("dimmed");
+        setVictoryLossOverlay(rockButton, moveWinner);
     }
     else if (playerMove == MOVE_PAPER) {
-        buttonRock.classList.add("dimmed");
-        buttonPaper.classList.remove("dimmed");
-        buttonScissors.classList.add("dimmed");
-
-        setVictoryLossOverlay(buttonPaper, moveWinner);
+        rockButton.classList.add("dimmed");
+        scissorsButton.classList.add("dimmed");
+        setVictoryLossOverlay(paperButton, moveWinner);
     }
     else if (playerMove == MOVE_SCISSORS) {
-        buttonRock.classList.add("dimmed");
-        buttonPaper.classList.add("dimmed");
-        buttonScissors.classList.remove("dimmed");
-
-        setVictoryLossOverlay(buttonScissors, moveWinner);
+        rockButton.classList.add("dimmed");
+        paperButton.classList.add("dimmed");
+        setVictoryLossOverlay(scissorsButton, moveWinner);
     }
-
-    // Nollställ knapparna?
+ 
+    // Deaktivera knapparna i några sekunder medan omgångens resultat visas och återställ sedan
     if ((playerMove == MOVE_NONE) && (compMove == MOVE_NONE)) {
-        buttonRock.classList.remove("dimmed");
-        buttonPaper.classList.remove("dimmed");
-        buttonScissors.classList.remove("dimmed");
-        moveRock.classList.remove("selected-move");
-        movePaper.classList.remove("selected-move");
-        moveScissors.classList.remove("selected-move");
-
-        resetVictoryLossOverlays(moveRock, movePaper, moveScissors, buttonRock, buttonPaper, buttonScissors);
+        resetVictoryLossOverlays(moveRock, movePaper, moveScissors, rockButton, paperButton, scissorsButton);
         setMoveButtonsDisabled(false);
     }
     else {
@@ -428,7 +394,8 @@ function resetVictoryLossOverlays() {
 
 
 ////////////////////////////////////////////////////////////////////////
-// Skapa en bild för varje möjlig poäng i scoreboard för både spelare och datorn
+// Skapa en bild för varje möjlig poäng i scoreboard för både spelare 
+// och datorn beroende på victoryPoints konstantens värde.
 function createScorePoints() {
     const scoreBoxPlayer = document.querySelector("#score-player > div");
     const scoreBoxComp = document.querySelector("#score-comp > div");
@@ -440,7 +407,7 @@ function createScorePoints() {
 
 
 ////////////////////////////////////////////////////////////////////////
-// Skapa en poäng-bild för spelaren eller datorn (använder inline-SVG i index.html)
+// Skapa poäng-bild (använder inline SVG-bild i index.html)
 function createScoreElement(count, isPlayer = true) {
     const newSVG = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     const newUse = document.createElementNS('http://www.w3.org/2000/svg', 'use');

@@ -1,429 +1,469 @@
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,700,800,400italic,700italic");
 @import url("https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,700,800,900");
-@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700&display=swap"); 
+@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700&display=swap");
 
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 /* Backdrop-färg för dialogruta */
 ::backdrop {
-    background-color: rgba(0, 0, 0, 0.75);
+  background-color: rgba(0, 0, 0, 0.75);
 }
 
 body {
-    display: flex;
-    min-height: 100vh;
-    min-width: 100vw;
-    justify-content: center;
-    align-items: center;    
-    padding: 0;
-    margin: 0;
-    background-color: rgb(80, 80, 80);
+  display: flex;
+  min-height: 100vh;
+  min-width: 100vw;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  background-color: rgb(80, 80, 80);
 }
 
 main {
-    width: 800px;
-    background-color: white;
-    box-shadow: 0px 0px 15px rgba(0,0,0, 0.35);
+  width: 800px;
+  background-color: white;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.35);
 }
 
 #gameheader {
-    background-color: lightblue;
-    padding: 0.2rem 0px 0px 0px;
+  background-color: rgb(35, 35, 35);
+  color: white;
+  padding: 0.2rem 0px 0px 0px;
 }
 
 #gameheader h1 {
-    text-align: center;
-    font-family: "Barlow Condensed", Arial, sans-serif;
-    font-size: 4rem;
-    margin: 0px 0px 0.2rem 0px;
-    padding: 0px;
+  text-align: center;
+  font-family: "Barlow Condensed", Arial, sans-serif;
+  font-size: 4rem;
+  margin: 0px 0px 0.2rem 0px;
+  padding: 0px;
 }
 
 #gameheader h1 img {
-    display: block;
-    margin: 0 auto;
+  display: block;
+  margin: 0 auto;
 }
 
 #gameheader h1 img.hide-element {
-    display: none;
+  display: none;
 }
 
 /****************** Scoreboard-rutan ******************/
 
 #gamescore {
-    display: flex;
-    justify-content: space-between;
-    font-family: "Roboto Condensed", Arial, sans-serif;
-    background-color: rgba(20, 20, 20, 0.5);
-    padding: 0.5rem 1.0rem;
-    visibility: hidden;
+  display: flex;
+  justify-content: space-between;
+  font-family: "Roboto Condensed", Arial, sans-serif;
+  background-color: black; /* rgba(20, 20, 20, 0.5); */
+  color: white;
+  padding: 0.5rem 1rem;
+  visibility: hidden;
 }
 
 #gamescore h2 {
-    margin: 0px;
-    padding: 0px;
-    text-transform: uppercase;
+  margin: 0px;
+  padding: 0px;
+  text-transform: uppercase;
 }
 
 #score-player {
-    flex-basis: 33%;
-    text-align: left;
+  flex-basis: 33%;
+  text-align: left;
 }
 
 #score-comp {
-    flex-basis: 33%;
-    text-align: right;
+  flex-basis: 33%;
+  text-align: right;
 }
 
-#score-player > div, #score-comp > div {
-    font-size: 2rem;
+#score-player > div,
+#score-comp > div {
+  font-size: 2rem;
 }
 
 #score-victory {
-    flex-basis: 33%;
-    text-align: center;
-    font-size: 3.5rem;
-    font-weight: bold;
+  flex-basis: 33%;
+  text-align: center;
+  font-size: 3.5rem;
+  font-weight: bold;
 }
 
 #score-victory.victory-player {
-    color: green;
-    text-shadow: 0px 0px 25px lightgreen;
+  color: lightgreen;
+  text-shadow: 0px 0px 25px lightgreen;
 }
 
 #score-victory.victory-comp {
-    color: red;
-    text-shadow: 0px 0px 25px rgb(255,64,64);
+  color: red;
+  text-shadow: 0px 0px 25px rgb(255, 64, 64);
 }
 
 #points-template {
-    display: none;
+  display: none;
 }
 
 #gamescore .points {
-    width: 32px;
-    height: 32px;
-    opacity: 0.2;
+  width: 32px;
+  height: 32px;
+  opacity: 0.2;
 }
 
 #gamescore .points.point-earned {
-    opacity: 1;
+  opacity: 1;
+}
+
+#gamescore .points:not(.point-earned.leader) {
+  fill: white;
 }
 
 #gamescore .points.point-earned.leader {
-    fill: yellow;
+  fill: yellow;
 }
-
 
 /****************** Statusraden nederst ******************/
 
 #gamestatus {
-    background-color: lightblue;
-    padding: 2rem;
-    text-align: center;
-    font-family: "Open Sans", Arial, sans-serif;
-    font-size: 1.2rem;
+  background-color: rgb(35, 35, 35);
+  color: white;
+  padding: 2rem;
+  text-align: center;
+  font-family: "Open Sans", Arial, sans-serif;
+  font-size: 1.2rem;
 }
 
 #gamestatus > div {
-    margin-bottom: 0.6rem;
+  margin-bottom: 0.6rem;
 }
 
 .roundinfo-win {
-    color: green;
+  color: lightgreen;
 }
 
 .roundinfo-loss {
-    color: red;
+  color: red;
 }
 
 .roundinfo-tie {
-    color: blue;
+  color: lightblue;
 }
 
 /****************** Knappar för att starta och starta om spelet ******************/
 
-#button-start, #button-restart {
-    padding: 1rem 1.2rem 1rem 1.2rem;
-    border-radius: 20px;
-    border: 0px;
-    background-color: orange;
-    cursor: pointer;
-    font-size: 1.2rem;
+#button-start,
+#button-restart {
+  padding: 1rem 1.2rem 1rem 1.2rem;
+  border-radius: 20px;
+  border: 0px;
+  background-color: orange;
+  cursor: pointer;
+  font-size: 1.2rem;
 }
 
-#button-start:hover, #button-restart:hover {
-    background-color: rgb(255,200,60);
-    color: white;
+#button-start:hover,
+#button-restart:hover {
+  background-color: rgb(255, 200, 60);
+  color: white;
 }
 
 #button-start {
-    background-color: rgb(148,170,220);
+  background-color: rgb(148, 170, 220);
 }
 
 #button-start:hover {
-    background-color: rgb(148,209,220);
-    color: white;   
+  background-color: rgb(148, 209, 220);
+  color: white;
 }
 
 /****************** Dialogruta för att fråga efter spelarens namn ******************/
 
 #namedialog {
-    padding: 2rem;
+  padding: 2rem;
+  font-family: "Barlow Condensed", Arial, sans-serif;
+}
+
+#namedialog label {
+  font-size: 1.4em;
+  font-weight: 700;
 }
 
 #namedialog input {
-    padding: 0.5rem;
-    border-radius: 12px;
-    border: 2px solid black;
-    outline: 0;
-    margin-right: 1rem;
+  padding: 0.5rem;
+  border-radius: 12px;
+  border: 2px solid black;
+  outline: 0;
+  margin-right: 1rem;
 }
 
 #namedialog input:focus {
-    outline: 0;
+  outline: 0;
+}
+
+#namedialog button {
+  padding: 0.6rem 1.2rem;
+  border-radius: 20px;
+  border: 0px;
+  background-color: rgb(148, 170, 220);
+  cursor: pointer;
+  font-size: 1.1rem;
 }
 
 /****************** Spelkontroller och datorns motsv. kort ******************/
 
 #gamebox {
-    padding: 0;
-    text-align: center;
-    display: grid;
+  padding: 0;
+  text-align: center;
+  display: grid;
 }
 
 #game {
-    grid-row-start: 1;
-    grid-column-start: -1;
-    visibility: hidden;
+  grid-row-start: 1;
+  grid-column-start: -1;
+  visibility: hidden;
 }
 
 #move-player {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-padding: 2rem;
-}
-
-#button-rock, #button-paper, #button-scissors {
-    transition:opacity 0.25s ease-in, transform 0.25s ease-in;
-}
-
-#button-rock.dimmed, #button-paper.dimmed, #button-scissors.dimmed {
-    opacity: 0.25;
-    transform: scale(0.8);
-    transition:opacity 0.25s ease-in, transform 0.25s ease-in;
-}
-
-#move-comp {
-    display: grid;
-    grid-template-areas: 
-    "comp-heading comp-heading comp-heading" 
-    "comp-rock comp-paper comp-scissors";
-    grid-template-columns: 1fr 1fr 1fr;
-    justify-content: center;
-    background-color: rgb(220, 220, 220);
-    width: 100%;
-}
-
-#move-comp img {
-    max-width: 100px;
-}
-
-#move-comp h2 {
-    grid-area: comp-heading; 
-    background-color: rgb(200, 200, 200);
-    margin: 0px;
-    width: 100%;
-    font-family: "Barlow Condensed", Arial, sans-serif;
-    font-weight: 400;
-    text-transform: uppercase;
-    padding: 0.3rem 0.6rem;
-}
-
-#move-comp div:nth-of-type(1) {
-    grid-area: comp-rock; 
-    text-align: right;
-}
-
-#move-comp div:nth-of-type(2) {
-    grid-area: comp-paper;
-    text-align: center;
-}
-
-#move-comp div:nth-of-type(3) {
-    grid-area: comp-scissors; 
-    text-align: left;
-}
-
-#comp-rock, #comp-paper, #comp-scissors {
-    opacity: 0.2;
-    padding: 0.5rem;
-    transition:opacity 0.25s ease-in, transform 0.25s ease-in;
-}
-
-#comp-rock, #comp-paper, #comp-scissors {
-    display: inline-block;
-}
-
-#comp-rock.selected-move, 
-#comp-paper.selected-move, 
-#comp-scissors.selected-move {
-    opacity: 1;
-    transform: scale(1.25);
-    transition:opacity 0.25s ease-in, transform 0.25s ease-in;
-}
-
-#move-comp figure {
-    position: relative;
-    width: fit-content;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  padding: 2rem;
 }
 
 #move-player button {
-    position: relative;
+  border: 0;
+  background-color: rgb(234, 234, 234);
+  cursor: pointer;
+  border-radius: 12px;
+}
+
+#button-rock,
+#button-paper,
+#button-scissors {
+  transition: opacity 0.25s ease-in, transform 0.25s ease-in;
+}
+
+#button-rock.dimmed,
+#button-paper.dimmed,
+#button-scissors.dimmed {
+  opacity: 0.25;
+  transform: scale(0.8);
+  transition: opacity 0.25s ease-in, transform 0.25s ease-in;
+}
+
+#move-comp {
+  display: grid;
+  grid-template-areas:
+    "comp-heading comp-heading comp-heading"
+    "comp-rock comp-paper comp-scissors";
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-content: center;
+  background-color: rgb(220, 220, 220);
+  width: 100%;
+}
+
+#move-comp img {
+  max-width: 100px;
+}
+
+#move-comp h2 {
+  grid-area: comp-heading;
+  background-color: rgb(200, 200, 200);
+  margin: 0px;
+  width: 100%;
+  font-family: "Barlow Condensed", Arial, sans-serif;
+  font-weight: 400;
+  text-transform: uppercase;
+  padding: 0.3rem 0.6rem;
+}
+
+#move-comp div:nth-of-type(1) {
+  grid-area: comp-rock;
+  text-align: right;
+}
+
+#move-comp div:nth-of-type(2) {
+  grid-area: comp-paper;
+  text-align: center;
+}
+
+#move-comp div:nth-of-type(3) {
+  grid-area: comp-scissors;
+  text-align: left;
+}
+
+#comp-rock,
+#comp-paper,
+#comp-scissors {
+  opacity: 0.2;
+  padding: 0.5rem;
+  transition: opacity 0.25s ease-in, transform 0.25s ease-in;
+}
+
+#comp-rock,
+#comp-paper,
+#comp-scissors {
+  display: inline-block;
+}
+
+#comp-rock.selected-move,
+#comp-paper.selected-move,
+#comp-scissors.selected-move {
+  opacity: 1;
+  transform: scale(1.25);
+  transition: opacity 0.25s ease-in, transform 0.25s ease-in;
+}
+
+#move-comp figure {
+  position: relative;
+  width: fit-content;
+}
+
+#move-player button {
+  position: relative;
 }
 
 #move-player button.win::before {
-    display: block;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    bottom: 0px; 
-    right: 0px;
-    content: "";
-    background-image: url('../images/win.png');
-    background-repeat: no-repeat;
-    background-size: 200px 200px;
-    background-position: bottom right;
-    z-index: 1;
+  display: block;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  right: 0px;
+  content: "";
+  background-image: url("../images/win.png");
+  background-repeat: no-repeat;
+  background-size: 200px 200px;
+  background-position: bottom right;
+  z-index: 1;
 }
 
 #move-player button.loss::before {
-    display: block;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    bottom: 0px; 
-    right: 0px;
-    content: "";
-    background-image: url('../images/loss.png');
-    background-repeat: no-repeat;
-    background-size: 200px 200px;
-    background-position: bottom right;
-    z-index: 1;
+  display: block;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  right: 0px;
+  content: "";
+  background-image: url("../images/loss.png");
+  background-repeat: no-repeat;
+  background-size: 200px 200px;
+  background-position: bottom right;
+  z-index: 1;
 }
 
-
 #move-comp figure.win::before {
-    display: block;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    bottom: 0px; 
-    right: 0px;
-    content: "";
-    background-image: url('../images/win.png');
-    background-repeat: no-repeat;
-    background-size: 90px 90px;
-    background-position: bottom right;
-    z-index: 1;
+  display: block;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  right: 0px;
+  content: "";
+  background-image: url("../images/win.png");
+  background-repeat: no-repeat;
+  background-size: 90px 90px;
+  background-position: bottom right;
+  z-index: 1;
 }
 
 #move-comp figure.loss::before {
-    display: block;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    bottom: 0px; 
-    right: 0px;
-    content: "";
-    background-image: url('../images/loss.png');
-    background-repeat: no-repeat;
-    background-size: 90px 90px;
-    background-position: bottom right;
-    z-index: 1;
+  display: block;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  right: 0px;
+  content: "";
+  background-image: url("../images/loss.png");
+  background-repeat: no-repeat;
+  background-size: 90px 90px;
+  background-position: bottom right;
+  z-index: 1;
 }
 
 /****************** Game Over-skärmen ******************/
 
 #gameover {
-    grid-row-start: 1;
-    grid-column-start: -1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap: 1.2rem;
-    visibility: hidden;
-    background-image: url("../images/defeat.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    font-family: "Roboto Condensed", Arial, sans-serif;
+  grid-row-start: 1;
+  grid-column-start: -1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 1.2rem;
+  visibility: hidden;
+  background-image: url("../images/defeat.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  font-family: "Roboto Condensed", Arial, sans-serif;
 }
 
 #gameover.victory {
-    background-image: url("../images/victory.jpg");
+  background-image: url("../images/victory.jpg");
 }
 
 #gameover h2 {
-    margin: 0px;
-    font-size: 6rem;
-    text-shadow: 0px 0px 15px white;
+  margin: 0px;
+  font-size: 6rem;
+  text-shadow: 0px 0px 8px white;
+  color: white;
 }
 
 #gameover > div {
-    font-family: "Open Sans", Arial, sans-serif;
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: yellow;
-    text-shadow: 0px 0px 10px black;
+  font-family: "Open Sans", Arial, sans-serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: yellow;
+  text-shadow: 0px 0px 10px black;
+  text-transform: uppercase;
 }
 
 /****************** Spelregler-skärmen ******************/
 
 #gamerules {
-    grid-row-start: 1;
-    grid-column-start: -1;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: nowrap;
-    padding: 2.5rem;
-    font-family: "Open Sans", Arial, sans-serif;
-    text-align: justify;
-    visibility: hidden;
+  grid-row-start: 1;
+  grid-column-start: -1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap;
+  padding: 2.5rem;
+  font-family: "Open Sans", Arial, sans-serif;
+  text-align: justify;
+  visibility: hidden;
 }
 
 #gamerules h2 {
-    font-family: "Barlow Condensed", Arial, sans-serif;
-    font-size: 5rem;
-    margin: 0.6rem 0.3rem 0.3rem 0.3rem;
+  font-family: "Barlow Condensed", Arial, sans-serif;
+  font-size: 5rem;
+  margin: 0.6rem 0.3rem 0.3rem 0.3rem;
 }
 
 #gamerules p:first-of-type {
-    font-weight: 700;
+  font-weight: 700;
 }
 
 #gamerules img {
-    max-width: 250px;
+  max-width: 250px;
 }
 
 .small-icon {
-    display: inline;
-    max-height: 1rem;
+  display: inline;
+  max-height: 1rem;
 }
 
 /****************** Klasser för att gömma och visa diverse boxar ******************/
 
-#gamerules.showbox, 
-#game.showbox, 
-#gamescore.showbox, 
+#gamerules.showbox,
+#game.showbox,
+#gamescore.showbox,
 #gameover.showbox {
-    visibility: visible;
+  visibility: visible;
 }
 
 .hide-element {
-    display: none;
+  display: none;
 }
