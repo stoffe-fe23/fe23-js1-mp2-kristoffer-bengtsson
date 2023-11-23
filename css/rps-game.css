@@ -253,7 +253,6 @@ main {
   background-color: rgb(234, 234, 234);
   cursor: pointer;
   border-radius: 12px;
-  transition: background-color 200ms ease-in;
 }
 
 #move-player button:focus,
