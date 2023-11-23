@@ -14,8 +14,8 @@
   <body>
     <main>
       <div id="gameheader">
-        <h1><img src="images/rps.png" id="gamelogo" alt="Rock Paper Scissors" />Rock Paper Scissors</h1>
-        <!-- POÄNGSTÄLLNING-RUTA -->
+        <h1><img src="images/rps.png" id="gamelogo" alt="Rock Paper Scissors logo" /><span class="color-rock">R</span>ock <span class="color-paper">P</span>aper <span class="color-scissors">S</span>cissors</h1>
+        <!-- BOX: Poängställning -->
         <div id="gamescore">
           <div id="score-player">
             <h2>Player</h2>
@@ -29,7 +29,7 @@
         </div>
       </div>
       <div id="gamebox">
-        <!-- SPELREGLER-BOX -->
+        <!-- BOX: Spelregler -->
         <div id="gamerules" class="showbox">
           <div>
             <h2>Game rules</h2>
@@ -50,7 +50,7 @@
           <div></div>
           <button id="button-restart">Play again</button>
         </div>
-        <!-- HUVUDBOXEN FÖR SPELET -->
+        <!-- BOX: Spelkontroller -->
         <div id="game">
           <div id="move-player">
             <button id="button-rock"><img src="images/rock.png" alt="Player Rock" /></button>
@@ -71,12 +71,12 @@
           </div>
         </div>
       </div>
-      <!-- STATUSRADEN NEDERST -->
+      <!-- BOX: Statusrad -->
       <div id="gamestatus">
         <div></div>
         <button id="button-start">Start the game!</button>
       </div>
-      <!-- DIALOGRUTA FÖR ATT FÅ SPELARENS NAMN -->
+      <!-- DIALOGRUTA: Fråga efter spelarens namn -->
       <dialog id="namedialog">
         <form id="form-playername" method="dialog" autocomplete="off">
           <label for="playername">Your name:</label>
@@ -85,7 +85,7 @@
         </form>
       </dialog>
     </main>
-    <!-- Stjärn-bild för poäng-visning -->
+    <!-- BILD: Stjärna för poäng-visning -->
     <svg version="2.0" id="points-template">
       <defs>
         <symbol id="points-image" viewBox="0 0 10.583333 10.583334">

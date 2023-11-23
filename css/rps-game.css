@@ -2,6 +2,11 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,700,800,900");
 @import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700&display=swap");
 
+/*
+    Miniprojekt 2 (Rock Paper Scissors) - FE23 Javascript 1
+    Kristoffer Bengtsson
+*/
+
 * {
   box-sizing: border-box;
 }
@@ -49,6 +54,18 @@ main {
 
 #gameheader h1 img.hide-element {
   display: none;
+}
+
+.color-rock {
+  color: rgb(80, 99, 124);
+}
+
+.color-paper {
+  color: rgb(229, 162, 0);
+}
+
+.color-scissors {
+  color: rgb(109, 176, 144);
 }
 
 /****************** Scoreboard-rutan ******************/
@@ -236,6 +253,13 @@ main {
   background-color: rgb(234, 234, 234);
   cursor: pointer;
   border-radius: 12px;
+  transition: background-color 200ms ease-in;
+}
+
+#move-player button:focus,
+#move-player button:hover {
+  background-color: lightgray;
+  transition: background-color 200ms ease-in;
 }
 
 #button-rock,
@@ -395,6 +419,7 @@ main {
   flex-direction: column;
   gap: 1.2rem;
   visibility: hidden;
+  background-color: black;
   background-image: url("../images/defeat.jpg");
   background-repeat: no-repeat;
   background-size: cover;

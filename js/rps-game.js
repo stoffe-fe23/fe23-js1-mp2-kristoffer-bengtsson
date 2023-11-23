@@ -70,6 +70,7 @@ restartButton.addEventListener("click", (event) => {
 
 
 // Event handler för formuläret där spelaren anger sitt namn.
+// Startar spelet när ett namn matats in. 
 const nameForm = document.querySelector("#form-playername");
 nameForm.addEventListener("submit", (event) => {
     const playerNameInput = document.querySelector("#playername");
@@ -169,7 +170,7 @@ function doGameRound(playerMove, compMove) {
 function updateScoreboard(doReset = false) {
     const victoryBox = document.querySelector("#score-victory");
 
-    // Uppdatera ställning ned spelarens och datorns poäng
+    // Uppdatera visad poängställning
     for (let i = 1; i <= victoryPoints; i++) {
         const playerScoreDot = document.querySelector(`#player-points-${i}`);
         const compScoreDot = document.querySelector(`#comp-points-${i}`);
@@ -205,7 +206,7 @@ function updateScoreboard(doReset = false) {
         }
     }
 
-    // Visa indikator om någon vunnit spelet
+    // Visa text om någon vunnit spelet
     if (doReset) {
         victoryBox.innerText = "";
         victoryBox.classList.remove("victory-player", "victory-comp");
@@ -281,7 +282,7 @@ function gameOver(victory = false) {
 
 
 ////////////////////////////////////////////////////////////////////////
-// Hämta text-etikett för ett drag
+// Hämta namntext för ett drag (MOVE_ konstant)
 function getMoveText(move) {
     const textLabels = ["Rock", "Paper", "Scissors"];
     return ((move >= 0) && (move < textLabels.length)) ? textLabels[move] : "Error!";
@@ -289,7 +290,7 @@ function getMoveText(move) {
 
 
 ////////////////////////////////////////////////////////////////////////
-// Sätt text som skall visas i statusraden nederst
+// Sätt text som skall visas i statusraden
 function setStatusMessage(text) {
     const messageBox = document.querySelector("#gamestatus > div");
     messageBox.innerHTML = text;
@@ -373,7 +374,7 @@ function setMoveButtonsDisabled(disabledState) {
 
 
 ////////////////////////////////////////////////////////////////////////
-// Visa markering på knapp/drag-kort för att indikera vinst/förlust
+// Visa markering på knapp/kort för att indikera vinst/förlust
 function setVictoryLossOverlay(element, winner, isPlayer = true) {
     if ((isPlayer && (winner == WINNER_PLAYER)) || (!isPlayer && (winner == WINNER_COMP))) {
         element.classList.add("win");
@@ -395,7 +396,7 @@ function resetVictoryLossOverlays() {
 
 ////////////////////////////////////////////////////////////////////////
 // Skapa en bild för varje möjlig poäng i scoreboard för både spelare 
-// och datorn beroende på victoryPoints konstantens värde.
+// och datorn (se victoryPoints global)
 function createScorePoints() {
     const scoreBoxPlayer = document.querySelector("#score-player > div");
     const scoreBoxComp = document.querySelector("#score-comp > div");
@@ -407,7 +408,7 @@ function createScorePoints() {
 
 
 ////////////////////////////////////////////////////////////////////////
-// Skapa poäng-bild (använder inline SVG-bild i index.html)
+// Skapa poängbild-element (använder inline SVG-bild i index.html)
 function createScoreElement(count, isPlayer = true) {
     const newSVG = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     const newUse = document.createElementNS('http://www.w3.org/2000/svg', 'use');
